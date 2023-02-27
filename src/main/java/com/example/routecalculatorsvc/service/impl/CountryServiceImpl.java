@@ -1,6 +1,7 @@
 package com.example.routecalculatorsvc.service.impl;
 
 import com.example.routecalculatorsvc.domain.model.Country;
+import com.example.routecalculatorsvc.domain.model.RouteResult;
 import com.example.routecalculatorsvc.service.CountryService;
 import com.example.routecalculatorsvc.webclient.WebClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,7 +39,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<String> getRoute(final String origin, final String destination) throws JsonProcessingException {
+    public RouteResult getRoute(final String origin, final String destination) throws JsonProcessingException {
 
         final Country[] countries = getAllCountries();
         final TreeMap<String, Country> cashDatabase = createCashDatabase(countries);
@@ -53,7 +54,9 @@ public class CountryServiceImpl implements CountryService {
         while (!queue.isEmpty()) {
             final String current = queue.poll();
             if (current.equals(destination)) {
-                return constructPath(path, origin, destination);
+                return RouteResult.builder()
+                        .route(constructPath(path, origin, destination))
+                        .build();
             }
             for (String neighbor : cashDatabase.get(current).getBorders()) {
                 if (!visited.contains(neighbor)) {

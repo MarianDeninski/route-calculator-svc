@@ -1,5 +1,6 @@
 package com.example.routecalculatorsvc.controller;
 
+import com.example.routecalculatorsvc.domain.model.RouteResult;
 import com.example.routecalculatorsvc.exception.BadRequestException;
 import com.example.routecalculatorsvc.service.CountryService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,22 +29,23 @@ public class RouteCalculatorResourceTest {
     @Test
     public void getRoutingInformation_returnsPath_whenValidInput() throws JsonProcessingException {
         // arrange
-        String origin = "BGR";
-        String destination = "ITA";
-        List<String> expectedPath = Arrays.asList("BGR", "ROU", "HUN", "AUT", "ITA");
-        when(countryService.getRoute(origin, destination)).thenReturn(expectedPath);
+        final String origin = "BGR";
+        final String destination = "ITA";
+        final List<String> listResult = Arrays.asList("BGR", "ROU", "HUN", "AUT", "ITA");
+        final RouteResult expectedResult = RouteResult.builder().route(listResult).build();
+        when(countryService.getRoute(origin, destination)).thenReturn(expectedResult);
         // act
-        List<String> actualPath = countryController.getRoutingInformation(origin, destination);
+        final RouteResult actualPath = countryController.getRoutingInformation(origin, destination);
 
         // assert
-        assertEquals(expectedPath, actualPath);
+        assertEquals(expectedResult, actualPath);
     }
 
     @Test
     public void getRoutingInformation_throwsBadRequestException_whenInvalidInput() throws JsonProcessingException {
         // arrange
-        String origin = "USA";
-        String destination = "Mexico";
+        final String origin = "USA";
+        final String destination = "Mexico";
         when(countryService.getRoute(origin, destination)).thenReturn(null);
 
         // act and assert
