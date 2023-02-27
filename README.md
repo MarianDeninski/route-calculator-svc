@@ -12,7 +12,7 @@
 
 2. Install JDK 11
 
-3. Install Maven 3.8.7
+3. Install Maven
 
 4. Build the jar, using the command **mvn clean install**
 
