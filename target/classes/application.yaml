@@ -1,0 +1,4 @@
+server:
+  application:
+    name: route-calculator-svc
+  port: 8080
