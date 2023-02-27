@@ -22,9 +22,5 @@ release.properties
 *.iml
 
 ## Directory-based project format:
-.idea
-.idea/copyright
-.idea/libraries
-.DS_Store
-!.idea/runConfigurations
+.idea/
 
